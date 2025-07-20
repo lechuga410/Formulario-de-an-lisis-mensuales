@@ -61,13 +61,15 @@ function mostrarOperacionesBreakeven() {
         document.getElementById("resumenOperacionesBreakeven").innerHTML = "No hay operaciones breakeven registradas.";
         return;
     }
-    let html = `<b>Operaciones breakeven registradas:</b><br><ol>`;
-    operacionesBreakeven.forEach(op =>
-        html += `<li>${op > 0 ? "+" : ""}${op.toFixed(2)}</li>`
-    );
-    html += "</ol>";
+
+    let html = `<b>Operaciones breakeven registradas:</b><br>`;
+    operacionesBreakeven.forEach((op, i) => {
+        html += `<div>#${i + 1}: ${op > 0 ? "+" : ""}${op.toFixed(2)}</div>`;
+    });
+
     document.getElementById("resumenOperacionesBreakeven").innerHTML = html;
 }
+
 
 function mostrarResumen() {
     if (operaciones.length === 0) {
@@ -83,14 +85,13 @@ function mostrarResumen() {
         porcentaje: total !== 0 ? (op / total) * 100 : 0
     }));
     // Ordena de mayor a menor aporte
-    aportes.sort((a, b) => Math.abs(b.porcentaje) - Math.abs(a.porcentaje));
     let html = `<b>Margen neto:</b> ${total.toFixed(2)}<br>`;
-    html += `<b>Cantidad de operaciones:</b> ${cantidad}<br>`;
-    html += `<b>Aporte individual (% sobre el total):</b><br><ol>`;
-    aportes.forEach(a =>
-        html += `<li>${a.valor > 0 ? "+" : ""}${a.valor.toFixed(2)} (${a.porcentaje.toFixed(2)}%)</li>`
-    );
-    html += "</ol>";
+html += `<b>Cantidad de operaciones:</b> ${cantidad}<br>`;
+html += `<b>Aporte individual (% sobre el total):</b><br>`;
+aportes.forEach((a, i) => {
+    html += `<div>#${i + 1}: ${a.valor > 0 ? "+" : ""}${a.valor.toFixed(2)} (${a.porcentaje.toFixed(2)}%)</div>`;
+});
+
     document.getElementById("resumenOperaciones").innerHTML = html;
 }
 
@@ -109,14 +110,14 @@ function mostrarResumenOperacionesNegativas() {
     }));
     // Ordena de mayor a menor aporte negativo
     aportesNegativos.sort((a, b) => Math.abs(b.porcentaje) - Math.abs(a.porcentaje));
-    let html = `<b>Margen neto negativo:</b> -${Math.abs(totalNegativo).toFixed(2)}<br>`;
-    html += `<b>Cantidad de operaciones perdedoras:</b> ${cantidadNegativa}<br>`;
-    html += `<b>Aporte individual (% sobre el total de pérdidas):</b><br><ol>`;
-    aportesNegativos.forEach(a =>
-        html += `<li>-${Math.abs(a.valor).toFixed(2)} (${a.porcentaje.toFixed(2)}%)</li>`
-    );
-    html += "</ol>";
-    html += `<b>Total de operaciones del mes:</b> ${totalOperacionesMes}<br>`; // Ahora al final
+   let html = `<b>Margen neto negativo:</b> -${Math.abs(totalNegativo).toFixed(2)}<br>`;
+html += `<b>Cantidad de operaciones perdedoras:</b> ${cantidadNegativa}<br>`;
+html += `<b>Aporte individual (% sobre el total de pérdidas):</b><br>`;
+aportesNegativos.forEach((a, i) => {
+    html += `<div>#${i + 1}: -${Math.abs(a.valor).toFixed(2)} (${a.porcentaje.toFixed(2)}%)</div>`;
+});
+html += `<b>Total de operaciones del mes:</b> ${totalOperacionesMes}<br>`;
+
     document.getElementById("resumenOperacionesNegativas").innerHTML = html;
 }
   
@@ -128,7 +129,7 @@ function mostrarResumenOperacionesNegativas() {
 function agregarError() {
         const tipo = document.getElementById("tipo-error").value;
         const cantidad = document.getElementById("cantidad-error").value;
-        const lista = document.getElementById("⚠️ lista-errores");
+        const lista = document.getElementById("lista-errores");
 
         if (cantidad === "" || cantidad <= 0) {
             alert("Escribe un número válido.");
@@ -167,12 +168,13 @@ function agregarError() {
         document.getElementById("resultadoMargenNetoTotal").innerHTML = resultado;
     });
 
+    //resumen final
     document.getElementById("generarResumenFinal").addEventListener("click", function() {
         const mes = document.getElementById("mes").value || "No especificado";
         const semanas = document.getElementById("semanasOperadas").value || "No especificado";
         // Obtén los valores seleccionados de los selects existentes
-        const compresionTiempoReal = document.getElementById("🎯 comprension-en-tiempo-real").value || "No especificado";
-        const compresionPostMercado = document.getElementById("📊 comprension-pos-mercado").value || "No especificado";
+        const compresionTiempoReal = document.getElementById("comprension-en-tiempo-real").value || "No especificado";
+        const compresionPostMercado = document.getElementById("comprension-pos-mercado").value || "No especificado";
         const ganadoras = operaciones.length;
         const perdedoras = operacionesNegativas.length;
         const breakeven = operacionesBreakeven.length;
@@ -204,70 +206,89 @@ function agregarError() {
         // Breakeven orden original
         const listaBreakeven = operacionesBreakeven.map(op => `${op > 0 ? "+" : ""}${op.toFixed(2)}`);
 
-        let resumen = `<h3>Resumen Final</h3>`;
-        resumen += `<b>Mes:</b> ${mes.charAt(0).toUpperCase() + mes.slice(1)}<br>`;
-        resumen += `<b>Semanas operadas:</b> ${semanas}<br>`;
-        resumen += `<b>Promedio de compresión del mercado en tiempo real de las semanas:</b> ${compresionTiempoReal}<br>`;
-        resumen += `<b>Promedio de compresión de las semanas post mercado:</b> ${compresionPostMercado}<br>`;
+        let resumen = `<h3>Resumen Final Mensual</h3>`;
+        resumen += `<b>🗓️ Mes:</b> ${mes.charAt(0).toUpperCase() + mes.slice(1)}<br><br>`;
+        resumen += `<b>📆 Semanas operadas:</b> ${semanas}<br><br>`;
+        resumen += `<b>⏱️ Promedio de compresión del mercado en tiempo real de las semanas:</b> ${compresionTiempoReal}<br><br>`;
+        resumen += `<b>📊 Promedio de compresión de las semanas post mercado:</b> ${compresionPostMercado}<br><br>`;
      
 
         // Ganadoras
-        resumen += `<b>Operaciones ganadoras (${ganadoras}):</b><ol>`;
+        resumen += `<b>✅ Operaciones ganadoras (${ganadoras}):</b><div>`;
         aportesGanadoras.forEach((a, i) => {
-            resumen += `<li>${a.valor > 0 ? "+" : ""}${a.valor.toFixed(2)} (${a.porcentaje.toFixed(2)}%)</li>`;
+            resumen += `<div>#${i + 1}: ${a.valor > 0 ? "+" : ""}${a.valor.toFixed(2)} (${a.porcentaje.toFixed(2)}%)</div>`;
         });
-        resumen += `</ol>`;
-        resumen += `<b>Margen neto de ganadas:</b> ${margenGanadas >= 0 ? "+" : ""}${margenGanadas.toFixed(2)}<br><br>`;
+        resumen += `</div>`;
+        resumen += `<b>📈 Margen neto de ganadas:</b> ${margenGanadas >= 0 ? "+" : ""}${margenGanadas.toFixed(2)}<br><br>`;
 
         // Perdedoras
-        resumen += `<b>Operaciones perdedoras (${perdedoras}):</b><ol>`;
+        resumen += `<b>❌ Operaciones perdedoras (${perdedoras}):</b><div>`;
         aportesPerdedoras.forEach((a, i) => {
-            resumen += `<li>-${Math.abs(a.valor).toFixed(2)} (${a.porcentaje.toFixed(2)}%)</li>`;
+            resumen += `<div>#${i + 1}: -${Math.abs(a.valor).toFixed(2)} (${a.porcentaje.toFixed(2)}%)</div>`;
         });
-        resumen += `</ol>`;
-        resumen += `<b>Margen neto de perdidas:</b> -${Math.abs(margenPerdidas).toFixed(2)}<br><br>`;
+        resumen += `</div>`;
+        resumen += `<b>📉 Margen neto de perdidas:</b> -${Math.abs(margenPerdidas).toFixed(2)}<br><br>`;
 
         // Breakeven
-        resumen += `<b>Operaciones breakeven (${breakeven}):</b><ol>`;
+        resumen += `<b>⚖️ Operaciones breakeven (${breakeven}):</b><div>`;
         listaBreakeven.forEach((op, i) => {
-            resumen += `<li>${op}</li>`;
+            resumen += `<div>#${i + 1}: ${op}</div>`;
         });
 
-        resumen += `<b>Total de operaciones:</b> ${totalOperaciones}<br><br>`;
+        resumen += `<b>📊 Total de operaciones:</b> ${totalOperaciones}<br>`;
         
-        resumen += `</ol><br>`;
+        resumen += `</div><br>`;
 
         // Tipos de errores
-        const listaErrores = document.getElementById("⚠️ lista-errores");
+        const listaErrores = document.getElementById("lista-errores");
         if (listaErrores && listaErrores.children.length > 0) {
-            resumen += `<b>Tipos de errores:</b><ul>`;
+            resumen += `<b>Tipos de errores:</b><div>`;
             Array.from(listaErrores.children).forEach(li => {
-                resumen += `<li>${li.textContent}</li>`;
+                resumen += `<div>${li.textContent}</div>`;
             });
-            resumen += `</ul><br>`;
+            resumen += `</div><br>`;
         } else {
-            resumen += `<b>Tipos de errores:</b> Ninguno<br>`;
+            resumen += `<b>⚠️ Tipos de errores:</b> Ninguno<br>`;
         }
 
         // Totales y winrate
         
-        resumen += `<b>Margen neto total:</b> ${margenNetoTotal > 0 ? "+" : ""}${margenNetoTotal.toFixed(2)}<br>`;
+        resumen += `<b>💰 Margen neto total:</b> ${margenNetoTotal > 0 ? "+" : ""}${margenNetoTotal.toFixed(2)}<br>`;
 
         // Nueva métrica: operación ganadora con mayor beneficio
         if (operaciones.length > 0) {
             const mayorGanancia = Math.max(...operaciones);
             const porcentaje = margenGanadas !== 0 ? (mayorGanancia / margenGanadas) * 100 : 0;
-            resumen += `<b>Operación ganadora con mayor beneficio:</b> +${mayorGanancia.toFixed(2)} (${porcentaje.toFixed(2)}%)<br>`;
+            resumen += `<b>🥇 Operación ganadora con mayor beneficio:</b> +${mayorGanancia.toFixed(2)} (${porcentaje.toFixed(2)}%)<br>`;
         }
 
         // Nueva métrica: operación perdedora con mayor pérdida
         if (operacionesNegativas.length > 0) {
             const mayorPerdida = Math.min(...operacionesNegativas); // Más negativa
             const porcentaje = margenPerdidas !== 0 ? (mayorPerdida / margenPerdidas) * 100 : 0;
-            resumen += `<b>Operación perdedora con mayor pérdida:</b> ${mayorPerdida.toFixed(2)} (${porcentaje.toFixed(2)}%)<br>`;
+            resumen += `<b>🛑 Operación perdedora con mayor pérdida:</b> ${mayorPerdida.toFixed(2)} (${porcentaje.toFixed(2)}%)<br>`;
         }
 
-        resumen += `<b>Win Rate:</b> ${winRate.toFixed(2)}% (${ganadoras} de ${totalWinRate} operaciones)<br>`;
+        resumen += `<b>🎯 Win Rate:</b> ${winRate.toFixed(2)}% (${ganadoras} de ${totalWinRate} operaciones)<br>`;
 
         document.getElementById("resumenFinal").innerHTML = resumen;
     });
+
+
+function generarImagen() {
+    const resumen = document.getElementById("resumenFinal");
+    const mes = document.getElementById("mes").value;
+
+    html2canvas(resumen, {
+        scale: 3,        // ⬆️ Aumenta la resolución
+        useCORS: true    // ⬅️ Para evitar errores con recursos externos (si los hay)
+    }).then(canvas => {
+        const link = document.createElement("a");
+        link.download = `resumen_mes_${mes}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    });
+}
+
+
+

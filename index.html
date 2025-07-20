@@ -6,7 +6,7 @@
     <title>analisis mensuales</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <header id="header">
@@ -61,7 +61,7 @@
 
      <section class="comprension-mercado"><br>
         <label id="real" for="comprension-en-tiempo-real">promedio de comprension del mercado en tiempo real de las semanas</label>
-        <select name="comprension-en-tiempo-real" id="🎯 comprension-en-tiempo-real" >
+        <select name="comprension-en-tiempo-real" id="comprension-en-tiempo-real" >
             <option value="baja-baja">baja-baja</option>
             <option value="baja-media">baja-media</option>
             <option value="baja-alta">baja-alta</option>
@@ -76,7 +76,7 @@
 
     <section class="compresion-pos-mercado">
         <label id="pos" for="comprension-pos-mercado">promedio de compresion de las semanas post mercado</label>
-        <select name="comprension-pos-mercado" id="📊 comprension-pos-mercado">
+        <select name="comprension-pos-mercado" id="comprension-pos-mercado">
             <option class="baja" value="baja-baja">baja-baja</option>
             <option class="baja" value="baja-media">baja-media</option>
             <option class="baja" value="baja-alta">baja-alta</option>
@@ -103,15 +103,23 @@
 
         <button onclick="agregarError()">Agregar error</button>
 
-        <ul id="⚠️ lista-errores"></ul>
+        <ul id="lista-errores"></ul>
     </section>
 
     </section><br>
     <button id="calcularWinRate" type="button">Calcular Win Rate</button>
     <div id="resultadoWinRate"></div>
+
     <button id="calcularMargenNetoTotal" type="button">Calcular Margen Neto Total</button>
     <div id="resultadoMargenNetoTotal"></div>
+
     <button id="generarResumenFinal" type="button">Generar resumen final</button>
     <div id="resumenFinal"></div>
+
+   <!-- Agrega este botón debajo de "Generar resumen final" -->
+    <button onclick="generarImagen()">Descargar imagen del resumen</button>
+
+
+
 </body>
 </html>
