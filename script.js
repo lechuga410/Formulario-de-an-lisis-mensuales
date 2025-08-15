@@ -178,7 +178,7 @@ function agregarError() {
         const ganadoras = operaciones.length;
         const perdedoras = operacionesNegativas.length;
         const breakeven = operacionesBreakeven.length;
-        const totalOperaciones = ganadoras + perdedoras + breakeven;
+        const totalOperaciones = ganadoras + perdedoras;
 
         // Margen neto
         const margenGanadas = operaciones.reduce((a, b) => a + b, 0);
@@ -187,7 +187,6 @@ function agregarError() {
 
         // Win rate
         const totalWinRate = ganadoras + perdedoras;
-        const winRate = totalWinRate === 0 ? 0 : (ganadoras / totalWinRate) * 100;
 
         // Aportes individuales ganadoras
         const aportesGanadoras = operaciones.map(op => ({
@@ -216,23 +215,23 @@ function agregarError() {
         // Ganadoras
         resumen += `<b>✅ Operaciones ganadoras (${ganadoras}):</b><div>`;
         aportesGanadoras.forEach((a, i) => {
-            resumen += `<div>#${i + 1}: ${a.valor > 0 ? "+" : ""}${a.valor.toFixed(2)} (${a.porcentaje.toFixed(2)}%)</div>`;
+            resumen += `<div>#${i + 1}: ${a.valor > 0 ?  "+" : ""}${a.valor.toFixed(2)}$ (${a.porcentaje.toFixed(2)}%)</div>`;
         });
         resumen += `</div>`;
-        resumen += `<b>📈 Margen neto de ganadas:</b> ${margenGanadas >= 0 ? "+" : ""}${margenGanadas.toFixed(2)}<br><br>`;
+        resumen += `<b>📈 Margen neto de ganadas:</b> ${margenGanadas >= 0 ? "+" : ""}${margenGanadas.toFixed(2)}$<br><br>`;
 
         // Perdedoras
         resumen += `<b>❌ Operaciones perdedoras (${perdedoras}):</b><div>`;
         aportesPerdedoras.forEach((a, i) => {
-            resumen += `<div>#${i + 1}: -${Math.abs(a.valor).toFixed(2)} (${a.porcentaje.toFixed(2)}%)</div>`;
+            resumen += `<div>#${i + 1}: -${Math.abs(a.valor).toFixed(2)}$ (${a.porcentaje.toFixed(2)}%)</div>`;
         });
         resumen += `</div>`;
-        resumen += `<b>📉 Margen neto de perdidas:</b> -${Math.abs(margenPerdidas).toFixed(2)}<br><br>`;
+        resumen += `<b>📉 Margen neto de perdidas:</b> -${Math.abs(margenPerdidas).toFixed(2)}$<br><br>`;
 
         // Breakeven
         resumen += `<b>⚖️ Operaciones breakeven (${breakeven}):</b><div>`;
         listaBreakeven.forEach((op, i) => {
-            resumen += `<div>#${i + 1}: ${op}</div>`;
+            resumen += `<div>#${i + 1}: ${op}$</div>`;
         });
 
         resumen += `<b>📊 Total de operaciones:</b> ${totalOperaciones}<br>`;
@@ -253,7 +252,7 @@ function agregarError() {
 
         // Totales y winrate
         
-        resumen += `<b>💰 Margen neto total:</b> ${margenNetoTotal > 0 ? "+" : ""}${margenNetoTotal.toFixed(2)}<br>`;
+        resumen += `<b>💰 Margen neto total:</b> ${margenNetoTotal > 0 ? "+" : ""}${margenNetoTotal.toFixed(2)}$<br>`;
 
         // Nueva métrica: operación ganadora con mayor beneficio
         if (operaciones.length > 0) {
@@ -269,7 +268,52 @@ function agregarError() {
             resumen += `<b>🛑 Operación perdedora con mayor pérdida:</b> ${mayorPerdida.toFixed(2)} (${porcentaje.toFixed(2)}%)<br>`;
         }
 
-        resumen += `<b>🎯 Win Rate:</b> ${winRate.toFixed(2)}% (${ganadoras} de ${totalWinRate} operaciones)<br>`;
+        // Calcular Avg Win, Avg Loss y Ratio
+let avgWin = 0;
+let avgLoss = 0;
+let ratio = "N/A";
+
+if (operaciones.length > 0) {
+    avgWin = operaciones.reduce((a, b) => a + b, 0) / operaciones.length;
+}
+if (operacionesNegativas.length > 0) {
+    avgLoss = operacionesNegativas.reduce((a, b) => a + b, 0) / operacionesNegativas.length;
+}
+if (avgLoss !== 0) {
+    ratio = Math.abs(avgWin / avgLoss).toFixed(2);
+} else {
+    ratio = "N/A";
+}
+
+resumen += `<b>📊 Avg Win:</b> ${avgWin > 0 ? "+" : ""}${avgWin.toFixed(2)}$<br>`;
+resumen += `<b>📉 Avg Loss:</b> -${Math.abs(avgLoss).toFixed(2)}$<br>`;
+resumen += `<b>⚖️ Ratio (Avg Win / Avg Loss):</b> ${ratio}<br><br>`;
+
+// Calcula Win Rate y Loss Rate
+const totalWinLoss = ganadoras + perdedoras;
+const winRate = totalWinLoss === 0 ? 0 : (ganadoras / totalWinLoss) * 100;
+const lossRate = totalWinLoss === 0 ? 0 : (perdedoras / totalWinLoss) * 100;
+
+resumen += `<b>🎯 Win Rate:</b> ${winRate.toFixed(2)}% &nbsp;&nbsp; <b>❌ Loss Rate:</b> ${lossRate.toFixed(2)}% 
+(${perdedoras} de ${totalWinLoss} operaciones)<br>`;
+
+// Calcular Expectancy
+let expectancy = 0;
+if (operaciones.length > 0 || operacionesNegativas.length > 0) {
+    const winRateDecimal = winRate / 100;
+    const lossRateDecimal = lossRate / 100;
+    expectancy = (winRateDecimal * avgWin) + (lossRateDecimal * avgLoss);
+}
+resumen += `<b>📈 Expectancy:</b> ${expectancy >= 0 ? "+" : ""}${expectancy.toFixed(2)}$<br><br>`;
+
+        document.getElementById("resumenFinal").innerHTML = resumen;
+
+        // Reconstruir todasLasOperaciones
+        todasLasOperaciones = [].concat(operaciones, operacionesNegativas);
+
+        // Mostrar drawdown y capital final
+        const drawdownTexto = calcularDrawdown();
+        resumen += `<pre>${drawdownTexto}</pre>`;
 
         document.getElementById("resumenFinal").innerHTML = resumen;
     });
@@ -289,6 +333,55 @@ function generarImagen() {
         link.click();
     });
 }
+
+function calcularDrawdown() {
+    const capitalInicial = parseFloat(document.getElementById("capital-inicial").value);
+    if (isNaN(capitalInicial) || capitalInicial <= 0) {
+        return "Capital inicial inválido.";
+    }
+
+    let capital = capitalInicial;
+    let maxCapital = capitalInicial;
+    let minCapitalDespuesDelPico = capitalInicial;
+    let maxDrawdown = 0;
+
+    // Variables para guardar el drawdown máximo y sus valores asociados
+    let drawdownPico = capitalInicial;
+    let drawdownValle = capitalInicial;
+
+    for (let i = 0; i < todasLasOperaciones.length; i++) {
+        capital += todasLasOperaciones[i];
+        if (capital > maxCapital) {
+            maxCapital = capital;
+            minCapitalDespuesDelPico = capital; // reinicia el mínimo después de un nuevo pico
+        }
+        if (capital < minCapitalDespuesDelPico) {
+            minCapitalDespuesDelPico = capital;
+        }
+        const drawdownActual = maxCapital - capital;
+        if (drawdownActual > maxDrawdown) {
+            maxDrawdown = drawdownActual;
+            drawdownPico = maxCapital;
+            drawdownValle = capital;
+        }
+    }
+
+    const drawdownPorcentaje = drawdownPico > 0 ? (maxDrawdown / drawdownPico) * 100 : 0;
+
+    // NUEVO: Mostrar el capital final
+    return (
+        `💰 Capital inicial: $${capitalInicial.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n` +
+        `📈 Pico máximo: $${maxCapital.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n` +
+        `📉 Capital mínimo después del pico: $${drawdownValle.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n` +
+        `🛑 Drawdown en dólares: $${maxDrawdown.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n` +
+        `🛑 Drawdown en porcentaje: ${drawdownPorcentaje.toFixed(2)}%\n` +
+        `💵 Capital final: $${capital.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
+    );
+}
+
+// Reconstruir todasLasOperaciones con las operaciones actuales (en orden: ganadoras, luego perdedoras)
+let todasLasOperaciones = [];
+todasLasOperaciones = todasLasOperaciones.concat(operaciones, operacionesNegativas);
 
 
 
