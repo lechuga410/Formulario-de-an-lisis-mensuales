@@ -8,7 +8,7 @@ body {
 }
 
 header {
-    background-image: url('../imagenes/logo.png');
+    background-image: url('imagenes/logo.png');
     background-position: center;
     height: 200px;
     margin-bottom: 30px;
