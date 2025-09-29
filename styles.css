@@ -1,17 +1,195 @@
-body{
+body {
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle, #ffffff, #000000);
+
+
+
+}
+
+header {
+    background-image: url('../imagenes/logo.png');
+    background-position: center;
+    height: 200px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgb(96, 3, 245);
+    border: 2px solid #ddd;
+    background-size: contain;
+    animation: moverFondo 60s linear infinite;
+   
+}
+@keyframes moverFondo {
+    from { background-position: 0 0; }
+    to { background-position: 100% 0; }
+}
+.imagen1{
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+    background-image: url(imagenes/1.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.contenido{
     text-align: center;
     font-family: cursive;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 30px;
-    background-color: #f5f7fa;
-    color: #333;
-    line-height: 1.6;
+    max-width: 1150px;  /*ancho máximo que puede ocupar la pantalla*/
+    margin: 0 auto; /*centrar el contenido*/ /*el paddin da expacion interno rexpecto del div y el vontenido de otro bordes. y el margin da expacion externo recpecto del div a otros div?*/
+    color: #000000;
+    line-height: 1.6; /*espacio vertical entre lineas de texto*/
     text-align: center;
-    background-color: rgb(248, 248, 248);
- 
+    gap: 20px;
+    
 }
+.seleccion-mes{
+    margin: 30px;
+}
+.seleccion-mes select {
+    padding: 8px;
+    transition: all 0.3s ease; /* hace más suave hover/focus */
+    text-align: center;
+    cursor: pointer;
+}
+.seleccion-mes label {
+    font-weight: bold;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px; /* se separa un poquito hacia abajo */
+}
+
+.cuantas-semanas-operaste{
+    margin: 30px;
+    
+}
+.cuantas-semanas-operaste label {
+    font-weight: bold;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px; /* se separa un poquito hacia abajo */
+}
+.cuantas-semanas-operaste input {
+   text-align: center;
+}
+.capital-inicial-container{
+    margin: 30px;
+    margin-bottom: 80px;
+
+}
+.capital-inicial-container label {
+    font-weight: bold;
+    display: block;
+    font-weight: bold;
+    
+    margin-bottom: 6px; /* se separa un poquito hacia abajo */
+}
+#capital-inicial {
+    text-align: center;
+}
+
+.comprension-mercado-contenedor{
+    color: white;
+    border: 2px solid #ddd;
+    margin: 50px;
+    margin-bottom: 80px;
+    padding: 70px;
+    background-image: url(imagenes/señorPlaya.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+}
+.comprension-mercado-contenedor section select{
+    cursor: pointer;
+    text-align: center;
+}
+section {
+    padding: 40px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+select{
+    border-radius: 10px;
+    padding: 100px;
+    -webkit-appearance: none; /* Chrome, Safari */
+    -moz-appearance: none;    /* Firefox */
+    appearance: none;         /* Estándar */
+    border: 1px solid #ccc;   /* Tu borde si quieres */
+    
+}
+
+
+/*==============================================================================================================================*/
+.contenedorErrores{
+    border: 1px solid white;
+    margin-bottom: 50px;
+}
+#tipo-error {
+    cursor: pointer;
+    background: transparent;   /* sin fondo */
+    border: 1px solid #ccc;     /* opcional, puedes quitarlo si no quieres borde */
+    color: #000;                /* cambia a blanco si el fondo es oscuro */
+}
+
+#tipo-error  {
+  background: transparent;   /* para que las opciones también sean trasparentes */
+  color: #000;               /* igual aquí */
+}
+
+.tt {
+  background: transparent;   /* por si acaso */
+}
+
+
+/*==============================================================================================================================*/
+
+.errores{
+    margin-bottom: 60px;
+    
+}
+#cantidad-error{
+    text-align: center;
+    background-color: transparent;
+}
+#lista-errores {
+    list-style: none;
+}
+.errores-card {
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05); /* deja ver el degradado pero suaviza */
+  backdrop-filter: blur(6px); /* efecto vidrio (opcional) */
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+/* Chrome, Safari, Edge */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+.tt{
+    margin: 20px;
+    display: inline-block;
+}
+#tipo-error{
+    text-align: center;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+
 #resumenFinal {
     background: #ffffff;
     padding: 20px;
@@ -31,9 +209,7 @@ button{border-radius: 10px;
 
 }
 
-select{border-radius: 10px;
-    
-}
+
 .container {
     background: white;
     padding: 30px;
@@ -41,14 +217,7 @@ select{border-radius: 10px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.08);
 }
 
-section {
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background: white;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-}
+
 
 button {
     padding: 10px 20px;
@@ -68,7 +237,6 @@ button:hover {
 
 input, select {
     padding: 10px 12px;
-    margin: 8px 0;
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #ddd;
@@ -98,4 +266,45 @@ button.secondary { background: var(--color-secondary); }
 button.danger { background: var(--color-error); }
 button, input, select, #resumenFinal {
     transition: box-shadow 0.2s, background 0.2s, border 0.2s;
+}
+.operaciones-container input {
+    text-align: center;
+}
+
+.operaciones-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* separa cada formulario automáticamente */
+   
+}
+
+#formOperaciones {
+    border: 2px solid green;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #e6ffe6;
+}
+#resumenOperaciones{
+    line-height: 1.6;
+}
+
+#formOperacionesNegativas {
+    border: 2px solid red;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #ffe6e6;
+}
+#resumenOperacionesNegativas{
+    line-height: 1.6;
+}
+
+#formOperacionesBreakeven {
+    border: 2px solid rgb(124, 117, 104);
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #c0bab3;
+}
+#resumenOperacionesBreakeven{
+    line-height: 1.6;
 }

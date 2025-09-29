@@ -5,128 +5,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>analisis mensuales</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="icon" type="image/png" href="imagenes/logo.png">
 </head>
+
+
+
 <body>
-    <header id="header">
-        <h1>Formulario de análisis mensuales</h1>
-    </header>
+    <header id="header"></header>
 
-    <select name="mes" id="mes">
-        <label for="mes">seleccione el mes actual</label>
-        <option value="enero">Enero</option>
-        <option value="febrero">Febrero</option>
-        <option value="marzo">Marzo</option>
-        <option value="abril">Abril</option>
-        <option value="mayo">Mayo</option>
-        <option value="junio">Junio</option>
-        <option value="julio">Julio</option>
-        <option value="agosto">Agosto</option>
-        <option value="septiembre">Septiembre</option>
-        <option value="octubre">Octubre</option>
-        <option value="noviembre">Noviembre</option>
-        <option value="diciembre">Diciembre</option>
-    </select>
+    <div class="contenido">
 
-    <form id="formSemanas">
-    <label>¿Cuántas semanas operaste este mes?</label>
-    <input type="number" id="semanasOperadas" min="1" max="6">
-    <button type="submit">Guardar</button>
-    </form>
-    <p id="resultado"></p>
+        <div class="imagen1">
 
-    <label for="capital-inicial">Capital inicial ($):</label>
-    <input type="number" id="capital-inicial" placeholder="Ej: 1000" step="any"><br>
+            <div class="seleccion-mes">
+                <label >seleccion el mes actual</label>
+                <select name="mes" id="mes">
+                    <label for="mes">seleccione el mes actual</label>
+                    <option value="enero">Enero</option>
+                    <option value="febrero">Febrero</option>
+                    <option value="marzo">Marzo</option>
+                    <option value="abril">Abril</option>
+                    <option value="mayo">Mayo</option>
+                    <option value="junio">Junio</option>
+                    <option value="julio">Julio</option>
+                    <option value="agosto">Agosto</option>
+                    <option value="septiembre">Septiembre</option>
+                    <option value="octubre">Octubre</option>
+                    <option value="noviembre">Noviembre</option>
+                    <option value="diciembre">Diciembre</option>
+                </select>
+            </div>
 
-    <form id="formOperaciones">
-        <label for="operacion">Ingresa el resultado de la operación ganadoras del mes</label><br>
-        <input type="number" step="0.01" id="operacion" name="operacion">
-        <button type="button" id="agregarOperacion">Agregar operación</button>
-        <button type="submit">Calcular resumen</button>
-    </form>
-    <div id="resumenOperaciones"></div>
+            <div class="cuantas-semanas-operaste">
+                <form id="formSemanas">
+                    <label>¿Cuántas semanas operaste este mes?</label>
+                    <input type="number" id="semanasOperadas" placeholder="¿Cuántas semanas operaste este mes?" min="1" max="6">
+                </form>
+                <p id="resultado"></p>
+            </div>
+            
+            <div class="capital-inicial-container">
+                <label for="">ingrese el capital inicial</label>
+                <input type="number" id="capital-inicial" placeholder="capital inicial" min="1" step="any"><br>
+            </div>
+            
+        </div>
 
-    <form id="formOperacionesNegativas">
-        <label for="operacionNegativa">Ingresa el resultado de la operación perdedora del mes</label><br>
-        <input type="number" step="0.01" id="operacionNegativa" name="operacionNegativa">
-        <button type="button" id="agregarOperacionNegativa">Agregar operación</button>
-        <button type="submit">Calcular resumen</button>
-    </form>
-    <div id="resumenOperacionesNegativas"></div>
+        <div class="operaciones-container">
+            <form id="formOperaciones"  style="box-shadow: 0 0 10px #34ff01; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
+                <label for="operacion">Ingresa el resultado de la operación ganadoras del mes</label><br>
+                <input type="number" step="0.01" id="operacion" name="operacion">
+                <button type="button" id="agregarOperacion">Agregar operación</button>
+                <button type="submit">Calcular resumen</button>
+            </form>
+            <div id="resumenOperaciones"></div>
 
-    <form id="formOperacionesBreakeven">
-        <label for="operacionBreakeven">Ingresa el resultado de la operación breakeven del mes</label><br>
-        <input type="number" step="0.01" id="operacionBreakeven" name="operacionBreakeven">
-        <button type="button" id="agregarOperacionBreakeven">Agregar operación</button>
-    </form>
-    <div id="resumenOperacionesBreakeven"></div>
+            <form id="formOperacionesNegativas"  style="box-shadow: 0 0 10px #fc0000; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
+                <label for="operacionNegativa">Ingresa el resultado de la operación perdedora del mes</label><br>
+                <input type="number" step="0.01" id="operacionNegativa" name="operacionNegativa">
+                <button type="button" id="agregarOperacionNegativa">Agregar operación</button>
+                <button type="submit">Calcular resumen</button>
+            </form>
+            <div id="resumenOperacionesNegativas"></div>
 
-     <section class="comprension-mercado"><br>
-        <label id="real" for="comprension-en-tiempo-real">promedio de comprension del mercado en tiempo real de las semanas</label>
-        <select name="comprension-en-tiempo-real" id="comprension-en-tiempo-real" >
-            <option value="baja-baja">baja-baja</option>
-            <option value="baja-media">baja-media</option>
-            <option value="baja-alta">baja-alta</option>
-            <option value="media-baja">media-baja</option>
-            <option value="media-media">media-media</option>
-            <option value="media-alta">media-alta</option>
-            <option value="alta-baja">alta-baja</option>
-            <option value="alta-media">alta-media</option>
-            <option value="alta-alta">alta-alta</option>
-        </select>
-    </section><br>
+            <form id="formOperacionesBreakeven"  style="box-shadow: 0 0 10px #918a8a; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
+                <label for="operacionBreakeven">Ingresa el resultado de la operación breakeven del mes</label><br>
+                <input type="number" step="0.01" id="operacionBreakeven" name="operacionBreakeven">
+                <button type="button" id="agregarOperacionBreakeven">Agregar operación</button>
+            </form>
+            <div id="resumenOperacionesBreakeven"></div>
+        </div>
 
-    <section class="compresion-pos-mercado">
-        <label id="pos" for="comprension-pos-mercado">promedio de compresion de las semanas post mercado</label>
-        <select name="comprension-pos-mercado" id="comprension-pos-mercado">
-            <option class="baja" value="baja-baja">baja-baja</option>
-            <option class="baja" value="baja-media">baja-media</option>
-            <option class="baja" value="baja-alta">baja-alta</option>
-            <option class="media" value="media-baja">media-baja</option>
-            <option class="media" value="media-media">media-media</option>
-            <option class="media" value="media-alta">media-alta</option>
-            <option class="alta" value="alta-baja">alta-baja</option>
-            <option class="alta" value="alta-media">alta-media</option>
-            <option class="alta" value="alta-alta">alta-alta</option>
-        </select>
+        <div class="comprension-mercado-contenedor">
 
-        <section>
-        <label for="tipo-error">Tipo de error mas frecuente en el trascurso de las semanas:</label>
-        <select id="tipo-error">
-            <option value="Reentrada">Reentrada</option>
-            <option value="Sobre-complicación">Sobre complicación</option>
-            <option value="Timing-adelantado">Timing adelantado</option>
-            <option value="mala-lectura-del-flujo-institucional">mala lectura del flujo institucional</option>
-            <option value="Reducir-el-sl-sin-razón-válida">reducir el sl sin razon valida</option>
-            <option value="No-ejecutar">No ejecutar</option>
-            <option value="Error-por-vacio-conceptual">Error por vacio conceptual</option>
-            <option value="Interrupciones-externas">Interrupciones externas</option>
-            <option value="Salida-prematura-de-operación-que-llegaría-a-TP">Salida prematura de operación que llegaría a TP</option>
-        </select>
+            <section class="comprension-mercado">
+                <label id="real" for="comprension-en-tiempo-real">promedio de comprension del mercado en tiempo real de las semanas</label>
+                <select name="comprension-en-tiempo-real" id="comprension-en-tiempo-real" >
+                    <option value="baja-baja">baja-baja</option>
+                    <option value="baja-media">baja-media</option>
+                    <option value="baja-alta">baja-alta</option>
+                    <option value="media-baja">media-baja</option>
+                    <option value="media-media">media-media</option>
+                    <option value="media-alta">media-alta</option>
+                    <option value="alta-baja">alta-baja</option>
+                    <option value="alta-media">alta-media</option>
+                    <option value="alta-alta">alta-alta</option>
+                </select>
+            </section><br>
 
-        <label for="cantidad-error"> Número de veces:</label>
-        <input type="number" id="cantidad-error" min="1" placeholder="Ej: 2">
+            <section class="compresion-pos-mercado">
+                <label id="pos" for="comprension-pos-mercado">promedio de compresion de las semanas post mercado</label>
+                <select name="comprension-pos-mercado" id="comprension-pos-mercado">
+                    <option class="baja" value="baja-baja">baja-baja</option>
+                    <option class="baja" value="baja-media">baja-media</option>
+                    <option class="baja" value="baja-alta">baja-alta</option>
+                    <option class="media" value="media-baja">media-baja</option>
+                    <option class="media" value="media-media">media-media</option>
+                    <option class="media" value="media-alta">media-alta</option>
+                    <option class="alta" value="alta-baja">alta-baja</option>
+                    <option class="alta" value="alta-media">alta-media</option>
+                    <option class="alta" value="alta-alta">alta-alta</option>
+                </select>
+            </section>
+        </div>
 
-        <button onclick="agregarError()">Agregar error</button>
+        <div class="contenedorErrores">
 
-        <ul id="lista-errores"></ul>
-    </section>
+            <label for="tipo-error" class="tt" >Tipo de errores</label>
+            <select id="tipo-error">
 
-    </section><br>
-    <button id="calcularWinRate" type="button">Calcular Win Rate</button>
-    <div id="resultadoWinRate"></div>
+                <!--1-->  <option value="Reentrada">Reentrada</option>
+                <!--2-->  <option value="Sobre-complicación">Sobre complicación</option>
+                <!--3-->  <option value="Timing-adelantado">Timing adelantado</option>
+                <!--4-->  <option value="mala-lectura-del-flujo-institucional">mala lectura del flujo institucional</option>
+                <!--5-->  <option value="Reducir-el-sl-sin-razón-válida">reducir el sl sin razon valida</option>
+                <!--6-->  <option value="No-ejecutar">No ejecutar</option>
+                <!--7-->  <option value="Error-por-vacio-conceptual">Error por vacio conceptual</option>
+                <!--8-->  <option value="Interrupciones-externas">Interrupciones externas</option>
+                <!--9-->  <option value="Salida-prematura-de-operación-que-llegaría-a-TP">Salida prematura de operación que llegaría a TP</option>
+                <!--10-->  <option value="Enfoque/disciplina">Enfoque/disciplina</option>
+                <!--11-->  <option value="Error-por-analizar-según-el-sentimiento/sesgo-y-no-según-lectura-de-mercado">Error por analizar según el sentimiento/sesgo y no según lectura de mercado</option>
+                <!--12-->  <option value="Cambiar-dirección-solo-por-perder-la-operación-anterior">Cambiar dirección solo por perder la operación anterior</option>
+                <!--13-->  <option value="oportunidad-perdida-por-no-levantarte-temprano">Oportunidad perdida por no levantarte temprano</option>
+                <!--14-->  <option value="No-ver-la-oportunidad">No ver la oportunidad</option>
+                    
+            </select>
+            
+            <div class="errores">
+                <div class="errores-card">
+                    <h2>Registrar errores</h2>
+                <div class="input-row">
+                <label for="cantidad-error">Cantidad</label>
+                <input type="number" id="cantidad-error" min="1" >
+                <button onclick="agregarError()">Agregar</button>
+                </div>
+                    <ul id="lista-errores"></ul>
+                </div>
+            </div>
+            
+        </div>
 
-    <button id="calcularMargenNetoTotal" type="button">Calcular Margen Neto Total</button>
-    <div id="resultadoMargenNetoTotal"></div>
+        <button id="generarResumenFinal" type="button">Generar resumen final</button>
+        <div id="resumenFinal"></div>
 
-    <button id="generarResumenFinal" type="button">Generar resumen final</button>
-    <div id="resumenFinal"></div>
-
-   <!-- Agrega este botón debajo de "Generar resumen final" -->
-    <button onclick="generarImagen()">Descargar imagen del resumen</button>
+        <!-- Agrega este botón debajo de "Generar resumen final" -->
+        <button onclick="generarImagen()">Descargar imagen del resumen</button>
 
 
-
+    </div>
+    <script src="script.js" defer></script>
 </body>
 </html>
