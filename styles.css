@@ -8,7 +8,7 @@ body {
 }
 
 header {
-    background-image: url('../imagenes/logo.png');
+    background-image: url('imagenes/logo.png');
     background-position: center;
     height: 200px;
     margin-bottom: 30px;
@@ -307,4 +307,54 @@ button, input, select, #resumenFinal {
 }
 #resumenOperacionesBreakeven{
     line-height: 1.6;
+}
+/*==============================================================================================================================*/
+.comentarios-container{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    
+}
+.comentarios label,
+.objetivos label {
+    display: block;        /* importante para que el margin funcione bien */
+
+}
+
+.comentarios, .objetivos {
+    width: 50%;       /* cada uno ocupa la mitad */
+    padding: 10px;    /* opcional: espacio interno */
+    box-sizing: border-box; /* asegura que padding no rompa el 50% */
+    
+}
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    background: transparent;
+    font-weight: bold;    /* opcional: resalta el texto */
+
+}
+textarea {
+    resize: none;
+    color: rgb(255, 255, 255);
+    font-weight: bold;    /* opcional: resalta el texto */
+}
+
+
+.comentarios p,
+.objetivos p {
+    border: 2px solid #000000;
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    white-space: pre-line;     /* respeta saltos de línea */
+    word-wrap: break-word;     /* fuerza a que el texto no se salga */
+    overflow-wrap: break-word; /* lo mismo, por compatibilidad */
+    display: block;            /* que ocupe el ancho como un textarea */
+}
+.comentarios p,
+.objetivos p {
+  min-height: 200px;    /* parecido al textarea */
 }
